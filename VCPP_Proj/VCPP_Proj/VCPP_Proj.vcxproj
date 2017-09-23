@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>J:\my_code\modernopengl\Includes;$(IncludePath)</IncludePath>
-    <LibraryPath>J:\my_code\modernopengl\Libs\lib-vc2015;$(LibraryPath)</LibraryPath>
+    <IncludePath>J:\my_code\core_opengl_dev-master\Includes;$(IncludePath)</IncludePath>
+    <LibraryPath>J:\my_code\core_opengl_dev-master\Libs\lib-vc2015;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
