@@ -30,10 +30,13 @@ int main()
 
 		glClearColor(0.5f,0.5f,0.5f,0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		
+		//We tell the renderer to use our compiled shader.
+		glUseProgram(shaderProgram);
+
+		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 
 		// draw our first triangle
-		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
@@ -113,6 +116,7 @@ void InitializeShaders()
 		int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 		glCompileShader(vertexShader);
+
 		// check for shader compile errors
 		int success;
 		char infoLog[512];
@@ -122,6 +126,7 @@ void InitializeShaders()
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
+
 		// fragment shader
 		int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -133,11 +138,13 @@ void InitializeShaders()
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
+
 		// link shaders
 		shaderProgram = glCreateProgram();
 		glAttachShader(shaderProgram, vertexShader);
 		glAttachShader(shaderProgram, fragmentShader);
 		glLinkProgram(shaderProgram);
+
 		// check for linking errors
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 		if (!success) {
@@ -164,6 +171,7 @@ void InitializeShaders()
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+		//We tell opengl how to interpret vertices data from the current VBO .
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
@@ -172,5 +180,6 @@ void InitializeShaders()
 
 		// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 		// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+		// Binding '0' as buffer resets the VAO  
 		glBindVertexArray(0);
 }
